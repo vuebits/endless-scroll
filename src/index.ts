@@ -1,1 +1,1 @@
-export { default as VEndlessScroll } from '@/components/HelloWorld.vue'
+export { default as VEndlessScroll } from '@/components/Component.vue'
