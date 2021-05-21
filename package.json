@@ -1,6 +1,6 @@
 {
   "name": "@vuebits/endless-scroll",
-  "version": "0.1.0-test",
+  "version": "0.1.0-alpha",
   "description": "Endless scroll component for vue3",
   "main": "./dist/script.common.js",
   "module": "./dist/script.common.js",
