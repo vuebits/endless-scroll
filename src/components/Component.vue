@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, onMounted, onBeforeUnmount, ref, toRefs } from 'vue'
+import { defineComponent, PropType, onMounted, onBeforeUnmount, ref, toRefs, watch } from 'vue'
 import { InifiniteScrollState } from './models'
 
 export default defineComponent({
@@ -70,6 +70,8 @@ export default defineComponent({
     let observer = null as any
     const container = ref(null)
     const end = ref(null)
+    const { state, identifier } = toRefs(props)
+
     const setObserver = (): void => {
       const options = {
         root: container.value,
@@ -86,8 +88,6 @@ export default defineComponent({
       observer.observe(end.value!)
     }
 
-    const { state } = toRefs(props)
-
     const handleScroll = (): void => {
       if (state.value === InifiniteScrollState.LOADED) {
         emit('feed-me')
@@ -96,6 +96,13 @@ export default defineComponent({
         observer.disconnect()
       }
     }
+
+    const reset = (): void => {
+      (container.value! as HTMLElement).scrollTop = 0
+      setObserver()
+    }
+
+    watch(identifier, reset)
 
     onMounted(() => {
       setObserver()
@@ -120,17 +127,6 @@ export default defineComponent({
     },
     isError (): boolean {
       return this.state === InifiniteScrollState.ERROR
-    }
-  },
-  methods: {
-
-    reset (): void {
-      (this.$refs.container as HTMLElement).scrollTop = 0
-    },
-    setIdentifierReset (): void {
-      if (this.identifier !== null) {
-        this.$watch('identifier', this.reset)
-      }
     }
   }
 })
