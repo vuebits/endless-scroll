@@ -1,6 +1,7 @@
 <template>
   <VEndlessScroll
     :state="state"
+    :identifier="identifier"
     class="example"
     @feed-me="feedIt"
   >
@@ -10,6 +11,7 @@
       {{line}}<br>
     </span>
   </VEndlessScroll>
+  <button @click="reset">Reset</button>
 </template>
 
 <script lang="ts">
@@ -29,7 +31,8 @@ export default defineComponent({
         'pierwsza linia',
         'druga linia',
         'trzecia linia'
-      ]
+      ],
+      identifier: 1
     }
   },
   methods: {
@@ -43,6 +46,21 @@ export default defineComponent({
       } else {
         this.state = InifiniteScrollState.COMPLETE
       }
+    },
+    reset (): void {
+      this.lines = [
+        'pierwsza linia',
+        'druga linia',
+        'trzecia linia',
+        'pierwsza linia',
+        'druga linia',
+        'trzecia linia',
+        'pierwsza linia',
+        'druga linia',
+        'trzecia linia'
+      ]
+      this.state = InifiniteScrollState.LOADED
+      this.identifier++
     }
   }
 })
